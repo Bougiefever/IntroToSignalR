@@ -1,0 +1,115 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>title</title>
+    <link href="~/Content/roomchat.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.10.2.js"></script>
+    <script src="~/Scripts/jquery.signalR-2.2.0.js"></script>
+    <script src="../signalr/hubs" type="text/javascript"></script>
+    <script>
+        $(function() {
+            var hub = $.connection.hub;
+            var chat = $.connection.roomchat;
+            var server = chat.server;
+            var client = chat.client;
+            var loginName;
+
+            client.rooms = function(rooms) {
+                $.each(rooms, function(i, room) {
+                    $('#rooms').append($('<li/>')
+                        .html(room)
+                        .click(function() {
+                            server.joinRoom($(this).text());
+                        }));
+                });
+            };
+
+            client.join = function(room) {
+                var $message = $('<input type="text"/>');
+                var $li = $('<li/>')
+                    .append($('<h4/>').html(room))
+                    .append($('<div/>')
+                        .addClass('input')
+                        .append($message)
+                        .append($('<button/>')
+                            .attr('id', 'send')
+                            .text('Send')
+                            .click(function() {
+                                server.send(room, $message.val(), loginName);
+                            })
+                        )
+                    )
+                    .append($('<div/>')
+                        .addClass('messages-box')
+                        .append($('<ul />').attr('data-room', room)));
+
+                $('#chats').append($li);
+            };
+
+            client.message = function(room, message) {
+                $('[data-room="' + room + '"]')
+                    .prepend($('<li/>')
+                        .append($('<span/>')
+                            .addClass('sender')
+                            .html(message.sender))
+                        .append($('<span class="message"/>').html(message.message))
+                    );
+            };
+
+            hub.start()
+                .done(function() {
+                    $('#login').click(function() {
+                        server.login($('#name').val())
+                            .done(function(name) {
+                                loginName = name;
+                                $('#login-box, #logout-box, #rooms-box, #chats-box').toggle();
+                                $('#logged').html(loginName);
+                            });
+                    });
+                    $('#logout').click(function() {
+                        server.logout($('#name').val())
+                            .done(function() {
+                                $('#login-box, #logout-box, #rooms-box, #chats-box').toggle();
+                                $('#rooms, #chats').empty();
+                            });
+                    });
+                    $('#new').click(function() {
+                        server.createRoom($('#room').val());
+                    });
+                });
+        });
+    </script>
+</head>
+<body>
+<div>
+    <div id="actions">
+        <div id="login-box">
+            <span>Name:</span>
+            <input type="text" id="name"/>
+            <button id="login">Login</button>
+        </div>
+        <div id="logout-box">
+            <span id="logged"></span>
+            <button id="logout">Logout</button>
+        </div>
+    </div>
+    <div id="rooms-box">
+        <div>
+            <span>New room:</span>
+            <input type="text" id="room"/>
+            <button id="new">New</button>
+        </div>
+        <ul id="rooms"></ul>
+    </div>
+    <div id="chats-box">
+        <ul id="chats"></ul>
+    </div> 
+</div>
+</body>
+</html>

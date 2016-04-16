@@ -1,0 +1,42 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>title</title>
+    <script src="~/Scripts/jquery-1.10.2.js"></script>
+    <script src="~/Scripts/jquery.signalR-2.2.0.js"></script>
+    <script src="../signalr/hubs" type="text/javascript"></script>
+    <script>
+        $(function () {
+            var broadcaster = $.connection.chat;
+
+            broadcaster.client.displayText = function (name, message) {
+                $('#messages').append('<li>' + name + ": " + message + '</li>');
+            };
+
+            $.connection.hub.logging = true;
+            $.connection.hub.start().done(function () {
+                $("#send").click(function () {
+                    broadcaster.server.broadcastMessage({ Name: $('#name').val(), Text: $('#message').val() });
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+<div>
+    <label>Name: </label>
+    <input type="text" id="name"/>
+    <input type="text" id="message"/>
+    <input type="button" id="send" value="Broadcast"/>
+
+    <ul id="messages"></ul>
+
+</div>
+</body>
+</html>

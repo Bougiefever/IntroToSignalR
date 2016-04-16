@@ -1,0 +1,13 @@
+C:\Users\abougie\Documents\_presentation\NET Hub Client\NET Hub Client\bin\Debug\NET Hub Client.exe.config
+C:\Users\abougie\Documents\_presentation\NET Hub Client\NET Hub Client\obj\Debug\NET Hub Client.csprojResolveAssemblyReference.cache
+C:\Users\abougie\Documents\_presentation\NET Hub Client\NET Hub Client\obj\Debug\NET_Hub_Client.AuctionClient.resources
+C:\Users\abougie\Documents\_presentation\NET Hub Client\NET Hub Client\obj\Debug\NET Hub Client.csproj.GenerateResource.Cache
+C:\Users\abougie\Documents\_presentation\NET Hub Client\NET Hub Client\bin\Debug\NET Hub Client.exe
+C:\Users\abougie\Documents\_presentation\NET Hub Client\NET Hub Client\bin\Debug\NET Hub Client.pdb
+C:\Users\abougie\Documents\_presentation\NET Hub Client\NET Hub Client\bin\Debug\Microsoft.AspNet.SignalR.Client.dll
+C:\Users\abougie\Documents\_presentation\NET Hub Client\NET Hub Client\bin\Debug\Newtonsoft.Json.dll
+C:\Users\abougie\Documents\_presentation\NET Hub Client\NET Hub Client\bin\Debug\Microsoft.AspNet.SignalR.Client.xml
+C:\Users\abougie\Documents\_presentation\NET Hub Client\NET Hub Client\bin\Debug\Newtonsoft.Json.xml
+C:\Users\abougie\Documents\_presentation\NET Hub Client\NET Hub Client\obj\Debug\NET_Hub_Client.Properties.Resources.resources
+C:\Users\abougie\Documents\_presentation\NET Hub Client\NET Hub Client\obj\Debug\NET Hub Client.exe
+C:\Users\abougie\Documents\_presentation\NET Hub Client\NET Hub Client\obj\Debug\NET Hub Client.pdb

@@ -1,0 +1,38 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>title</title>
+    <script src="~/Scripts/jquery-1.10.2.js"></script>
+    <script src="~/Scripts/jquery.signalR-2.2.0.js"></script>
+    <script>
+        $(function () {
+            var connection = $.connection('/FirstSamplePC');
+
+            connection.received(function (data) {
+                $('#messages').append('<li>' + data + '</li>');
+            });
+
+            connection.start().done(function () {
+                $("#send").click(function () {
+                    connection.send($('#name').val() + ': ' + $('#message').val());
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <div>
+        <label>Name: </label>
+        <input id="name"/><br/>
+        <input id="message"/>
+        <button id="send">Send</button> <br/>
+        <ul id="messages"></ul>
+    </div>
+</body>
+</html>

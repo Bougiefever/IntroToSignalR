@@ -1,0 +1,75 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Auction</title>
+    <script src="/Scripts/jquery-1.10.2.js"></script>
+    <script src="/Scripts/jquery.signalR-2.2.0.js"></script>
+    <script src="http://localhost:8080/signalr/hubs" type="text/javascript"></script>
+
+    <script>
+        $(function () {
+            var auction = $.connection.auction;
+
+            auction.client.updateBid = function(bid) {
+                updateBid(bid, 0);
+            }
+
+            auction.client.closeBid = function(bid) {
+                updateButtons(false);
+            }
+
+            auction.client.closeBidWin = function(data) {
+                updateButtons(false);
+                updateBid(data, 1);
+            }
+
+            function updateBid(bid, updateObject) {
+                if (bid) {
+                    $('#name').text(bid.Name);
+                    $('#description').text(bid.Description);
+                    $('#bid').text(bid.BidPrice);
+                    $('#time').text(bid.TimeLeft);
+                    if (updateObject > 0) {
+                        $('#wins').append('<li>' + bid.Name + ' at ' + bid.BidPrice + '</li>')
+                    }
+                }
+            }
+
+            function updateButtons(state) {
+                $('#currentBid').enabled = state;
+                $('#makeBid').enabled = state;
+            }
+            $.connection.hub.url = "http://localhost:8080/signalr";
+            $.connection.hub.start().done(function() {
+                $('#currentBid').click(function() {
+                     auction.server.makeCurrentBid();
+                });
+                $('#makeBid').click(function () {
+                    //alert($('#bidAmount').val());
+                    auction.server.makeBid(parseFloat($('#bidAmount').val()));
+                });
+            });
+        });
+    </script> 
+</head>
+<body>
+<div>
+    <label id="name"></label>
+    <label id="bid"></label><br />
+    <label id="description"></label> &nbsp;
+    <label>Time Left:</label>
+    <label id="time"></label><br />
+    <button id="currentBid">Current Bid</button>
+    <button id="makeBid">Make Bid</button>
+    <input type="text" id="bidAmount" />
+    <ul id="wins" style="list-style: none;"></ul>
+    
+</div>
+</body>
+</html>
